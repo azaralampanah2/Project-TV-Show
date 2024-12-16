@@ -13,13 +13,17 @@ function makePageForEpisodes(episodeList) {
   const filmTemplate = document
     .getElementById("filmEpisodes")
     .content.cloneNode(true);
-  filmTemplate.querySelector("h3").textContent = episodeList.name + episodeCode;
+  filmTemplate.querySelector("h3").textContent = episodeList.name +" ("+ episodeCode+")";
   filmTemplate.querySelector("img").src = episodeList.image.medium;
-  filmTemplate.querySelector("p").textContent = episodeList.summary;
+  filmTemplate.querySelector("p").textContent = episodeList.summary.replace(/<[^>]*>/g, '');
 
   return filmTemplate;
 }
-for (i = 0; i < allEpisodes.length; i++) {
-  document.body.append(makePageForEpisodes(allEpisodes[i]));
+
+const root = document.getElementById("root"); 
+
+for (let i = 0; i < allEpisodes.length; i++) {
+  root.append(makePageForEpisodes(allEpisodes[i])); 
 }
+
 window.onload = setup;
