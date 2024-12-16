@@ -1,12 +1,25 @@
-//You can edit ALL of the code here
 function setup() {
   const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
+  const oneEp = getOneEpisode();
+  makePageForEpisodes(oneEp);
 }
-
+const oneEp = getOneEpisode();
+const allEpisodes = getAllEpisodes();
 function makePageForEpisodes(episodeList) {
-  const rootElem = document.getElementById("root");
-  rootElem.textContent = `Got ${episodeList.length} episode(s)`;
-}
+  const episodeCode = `S${String(episodeList.season).padStart(2, "0")}E${String(
+    episodeList.number
+  ).padStart(2, "0")}`;
 
+  const filmTemplate = document
+    .getElementById("filmEpisodes")
+    .content.cloneNode(true);
+  filmTemplate.querySelector("h3").textContent = episodeList.name + episodeCode;
+  filmTemplate.querySelector("img").src = episodeList.image.medium;
+  filmTemplate.querySelector("p").textContent = episodeList.summary;
+
+  return filmTemplate;
+}
+for (i = 0; i < allEpisodes.length; i++) {
+  document.body.append(makePageForEpisodes(allEpisodes[i]));
+}
 window.onload = setup;
