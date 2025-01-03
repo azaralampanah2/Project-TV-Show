@@ -3,8 +3,11 @@ function setup() {
   const oneEp = getOneEpisode();
   makePageForEpisodes(oneEp);
 }
+
 const oneEp = getOneEpisode();
 const allEpisodes = getAllEpisodes();
+
+// makes episodeCode and film/episode template.
 function makePageForEpisodes(episodeList) {
   const episodeCode = `S${String(episodeList.season).padStart(2, "0")}E${String(
     episodeList.number
@@ -22,8 +25,11 @@ function makePageForEpisodes(episodeList) {
 
 const root = document.getElementById("root"); 
 
-for (let i = 0; i < allEpisodes.length; i++) {
+/*for (let i = 0; i < allEpisodes.length; i++) {
   root.append(makePageForEpisodes(allEpisodes[i])); 
-}
+}*/
+//Using map to iterate over allEpisodes and append the result of makePageForEpisodes to root 
+allEpisodes.map((episode) => root.append(makePageForEpisodes(episode)));
+
 
 window.onload = setup;
