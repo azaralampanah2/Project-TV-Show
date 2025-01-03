@@ -1,8 +1,4 @@
-function setup() {
-  const allEpisodes = getAllEpisodes();
-  const oneEp = getOneEpisode();
-  makePageForEpisodes(oneEp);
-}
+
 const oneEp = getOneEpisode();
 const allEpisodes = getAllEpisodes();
 function makePageForEpisodes(episodeList) {
