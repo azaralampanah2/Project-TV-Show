@@ -44,7 +44,7 @@ function clear(){
 
 //2: add event listener to get event & compare query when key is pressed i.e event
 searchInput.addEventListener('keyup', function(event) {
-  const matchedEpisodes = [];
+  let matchedEpisodes = [];
   const query = searchInput.value.toLowerCase(); // Get the search input value in lowercase
   
   // Compare the query with episode summaries
@@ -56,14 +56,21 @@ searchInput.addEventListener('keyup', function(event) {
   }
   
   clear() // Clear previous results
-  
+
   //episode template for each matched episode.
   for (let i = 0; i < matchedEpisodes.length; i++) {
      const pages = makePageForEpisodes(matchedEpisodes[i]);
       root.append(pages);
-    }
-  
+    }  
+
+//episodes displayed counter.
+  const episodeDisplayed = document.getElementById("display-label")
+  episodeDisplayed.textContent = `Displaying ${matchedEpisodes.length}/73 episodes`
+ 
 });
+
+
+
 
 
 
