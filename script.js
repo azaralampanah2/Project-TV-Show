@@ -6,9 +6,9 @@ function setup() {
 
 const oneEp = getOneEpisode();
 const allEpisodes = getAllEpisodes();
-const episodeCode = `S${String(oneEp.season).padStart(2, "0")}E${String(
-    oneEp.number
-  ).padStart(2, "0")}`;
+function getEpisodeCode(episode) {
+  return `S${String(episode.season).padStart(2, "0")}E${String(episode.number).padStart(2, "0")}`;
+}
 
 // makes film/episode template.
 function makePageForEpisodes(episodeList) {
@@ -16,7 +16,7 @@ function makePageForEpisodes(episodeList) {
     .getElementById("filmEpisodes")
     .content.cloneNode(true);
 
-  filmTemplate.querySelector("h3").textContent = episodeList.name +" ("+ episodeCode+")";
+  filmTemplate.querySelector("h3").textContent = episodeList.name + `${getEpisodeCode(episodeList)}`;
   filmTemplate.querySelector("img").src = episodeList.image.medium;
   filmTemplate.querySelector("p").textContent = episodeList.summary.replace(/<[^>]*>/g, '');
 
@@ -71,15 +71,47 @@ searchInput.addEventListener('keyup', function(event) {
 
 // 200 B
 const dropdownMenu = document.getElementById("dropdown")
-
-
+//iterate and append the name of all the episode to the dropdown menu.
 allEpisodes.forEach(episode =>{
   const option = document.createElement("option");
-   
-   option.text = `${episode.name} - Season ${episode.season}`;
+   option.text = `${getEpisodeCode(episode)} - ${episode.name}`;
    dropdownMenu.appendChild(option);
-
 })
+
+// getCode() deconstructs selection to get only episode code
+function getCode(selectedEpisode) {
+  const indexOfDash = selectedEpisode.indexOf(" -");
+  return selectedEpisode.substring(0, indexOfDash);
+}
+
+dropdownMenu.addEventListener('change', function() {
+  const selectedEpisode = (getCode(dropdownMenu.value));
+  //compare selectedEpisode with all Episode
+  const foundMatch = allEpisodes.find(episode => selectedEpisode === getEpisodeCode(episode))
+   if (foundMatch) {
+    clear()
+    root.append(makePageForEpisodes(foundMatch));
+
+    // Create the "Go Back" button
+    const goBackButton = document.createElement("button");
+    goBackButton.textContent = "Go Back to All Episodes";
+    goBackButton.id = "goBackButton";
+    root.append(goBackButton);
+
+    // Add event listener to "Go Back" button
+    goBackButton.addEventListener('click', function() {
+      clear();
+      allEpisodes.forEach(episode => {
+        root.append(makePageForEpisodes(episode));
+      });
+      // Remove the "Go Back" button after clicking
+      goBackButton.remove();
+    });
+    
+  }else {
+    return "No match found.";
+  }
+});
 
 
 
