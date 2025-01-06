@@ -9,16 +9,19 @@
   </head>
 
   <body>
-    <div id="root">
+    <header>
       <div id="searchBox">
         <form action="/action_page.php">
           <label for="search-input" id="display-label">
             Displaying: All Episodes
           </label>
           <input type="search" id="search-input" name="search" placeholder="your search term..">
+          <label for="dropdown">Choose an Episode:</label>
+          <select id="dropdown" name="Episodes"></select>
         </form>
       </div>
-    
+    </header>
+    <div id="root">
       <template id="filmEpisodes">
         <section>
           <h3>Episode Name- Episode Code </h3>

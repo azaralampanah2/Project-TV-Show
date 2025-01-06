@@ -6,13 +6,12 @@ function setup() {
 
 const oneEp = getOneEpisode();
 const allEpisodes = getAllEpisodes();
-
-// makes episodeCode and film/episode template.
-function makePageForEpisodes(episodeList) {
-  const episodeCode = `S${String(episodeList.season).padStart(2, "0")}E${String(
-    episodeList.number
+const episodeCode = `S${String(oneEp.season).padStart(2, "0")}E${String(
+    oneEp.number
   ).padStart(2, "0")}`;
 
+// makes film/episode template.
+function makePageForEpisodes(episodeList) {
   const filmTemplate = document
     .getElementById("filmEpisodes")
     .content.cloneNode(true);
@@ -25,6 +24,7 @@ function makePageForEpisodes(episodeList) {
 }
 
 const root = document.getElementById("root"); 
+console.log(root)
 
 /*for (let i = 0; i < allEpisodes.length; i++) {
   root.append(makePageForEpisodes(allEpisodes[i])); 
@@ -68,6 +68,20 @@ searchInput.addEventListener('keyup', function(event) {
   episodeDisplayed.textContent = `Displaying ${matchedEpisodes.length}/73 episodes`
  
 });
+
+// 200 B
+const dropdownMenu = document.getElementById("dropdown")
+
+
+allEpisodes.forEach(episode =>{
+  const option = document.createElement("option");
+   
+   option.text = `${episode.name} - Season ${episode.season}`;
+   dropdownMenu.appendChild(option);
+
+})
+
+
 
 
 
