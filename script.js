@@ -106,6 +106,8 @@ dropdownMenu.addEventListener('change', function() {
       });
       // Remove the "Go Back" button after clicking
       goBackButton.remove();
+      //reset the dropdown to the default option:
+      dropdownMenu.selectedIndex = 0;
     });
     
   }else {
