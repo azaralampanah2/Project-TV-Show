@@ -4,3 +4,10 @@
   gap: 1rem;
   padding: 1rem;
 }
+
+#root>button {
+  align-self: flex-end;
+}
+
+
+

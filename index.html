@@ -9,15 +9,28 @@
   </head>
 
   <body>
+    <header>
+      <div id="searchBox">
+        <form action="/action_page.php">
+          <label for="search-input" id="display-label">
+            Displaying: All Episodes
+          </label>
+          <input type="search" id="search-input" name="search" placeholder="your search term..">
+          <label for="dropdown"></label>
+          <select id="dropdown" name="Episodes">
+            <option value="" disabled selected>Choose an Episode</option>
+          </select>
+        </form>
+      </div>
+    </header>
     <div id="root">
-    
-    <template id="filmEpisodes">
-      <section>
-        <h3>Episode Name- Episode Code </h3>
-        <img src="" alt="Episode Image" />
-        <p>Summary</p>
-      </section>
-    </template>
+      <template id="filmEpisodes">
+        <section>
+          <h3>Episode Name- Episode Code </h3>
+          <img src="" alt="Episode Image" />
+          <p>Summary</p>
+        </section>
+      </template>
     </div>
     <footer>
       <p>
@@ -30,9 +43,9 @@
       </p>
     </footer>
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
+    <script src="episodes.js" defer></script>
 
     <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </body>
 </html>
