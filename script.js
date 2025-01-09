@@ -1,10 +1,7 @@
 function setup() {
-  const allEpisodes = getAllEpisodes();
-  const oneEp = getOneEpisode();
-  makePageForEpisodes(oneEp);
+  makePageForEpisodes();
 }
 
-const oneEp = getOneEpisode();
 const allEpisodes = getAllEpisodes();
 function getEpisodeCode(episode) {
   return `S${String(episode.season).padStart(2, "0")}E${String(episode.number).padStart(2, "0")}`;
