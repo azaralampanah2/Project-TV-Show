@@ -1,15 +1,44 @@
-function setup() {
-  renderAllEpisodes();
+let allEpisodes = [];
+
+async function setup() {
+  await fetchEpisodes();
 }
 
-const allEpisodes = getAllEpisodes();
+// Fetch episodes from API
+ function fetchEpisodes() {
+  const root = document.getElementById("root");
+  const loadingMessage = document.createElement("p");
+  loadingMessage.id = "loadingMessage";
+  loadingMessage.textContent = "Loading episodes, please wait...";
+  root.append(loadingMessage);
 
-// Helper to get formatted episode code
+  
+    fetch("https://api.tvmaze.com/shows/82/episodes")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch episodes.");
+        }
+        return response.json(); // Return parsed JSON data
+      })
+      .then((data) => {
+        
+        allEpisodes = data; 
+        loadingMessage.remove(); // Remove loading message
+        renderAllEpisodes(); 
+        populateDropdown(); 
+      })
+      .catch((err) => {
+        console.error(err);
+        loadingMessage.textContent = "Error loading episodes. Please try again later.";
+      });
+  }
+   
+
+
 function getEpisodeCode(episode) {
   return `S${String(episode.season).padStart(2, "0")}E${String(episode.number).padStart(2, "0")}`;
 }
 
-// Generate episode template
 function makePageForEpisodes(episode) {
   const filmTemplate = document
     .getElementById("filmEpisodes")
@@ -21,13 +50,11 @@ function makePageForEpisodes(episode) {
   return filmTemplate;
 }
 
-// Clear displayed episodes
 function clearEpisodes() {
   const sections = document.querySelectorAll("#root section");
   sections.forEach(section => section.remove());
 }
 
-// Render all episodes
 function renderAllEpisodes() {
   clearEpisodes();
   allEpisodes.forEach(episode => {
@@ -36,15 +63,14 @@ function renderAllEpisodes() {
   updateDisplayLabel(allEpisodes.length);
 }
 
-// Update display label
 function updateDisplayLabel(count) {
   const displayLabel = document.getElementById("display-label");
   displayLabel.textContent = `Displaying ${count}/${allEpisodes.length} episodes`;
 }
 
-// Search functionality
-document.getElementById("search-input").addEventListener("keyup", function() {
+document.getElementById("search-input").addEventListener("keyup", function () {
   const query = this.value.toLowerCase();
+  
   const matchedEpisodes = allEpisodes.filter(
     episode =>
       episode.name.toLowerCase().includes(query) ||
@@ -58,17 +84,19 @@ document.getElementById("search-input").addEventListener("keyup", function() {
   updateDisplayLabel(matchedEpisodes.length);
 });
 
-// Populate dropdown
 const dropdownMenu = document.getElementById("dropdown");
-allEpisodes.forEach(episode => {
-  const option = document.createElement("option");
-  option.value = getEpisodeCode(episode);
-  option.text = `${getEpisodeCode(episode)} - ${episode.name}`;
-  dropdownMenu.appendChild(option);
-});
 
-// Handle dropdown selection
-dropdownMenu.addEventListener("change", function() {
+function populateDropdown() {
+  dropdownMenu.innerHTML = '<option value="" disabled selected>Choose an Episode</option>';
+  allEpisodes.forEach(episode => {
+    const option = document.createElement("option");
+    option.value = getEpisodeCode(episode);
+    option.text = `${getEpisodeCode(episode)} - ${episode.name}`;
+    dropdownMenu.appendChild(option);
+  });
+}
+
+dropdownMenu.addEventListener("change", function () {
   const selectedCode = this.value;
   const matchedEpisode = allEpisodes.find(episode => getEpisodeCode(episode) === selectedCode);
 
@@ -81,7 +109,7 @@ dropdownMenu.addEventListener("change", function() {
     goBackButton.id = "goBackButton";
     document.getElementById("root").append(goBackButton);
 
-    goBackButton.addEventListener("click", function() {
+    goBackButton.addEventListener("click", function () {
       renderAllEpisodes();
       this.remove();
       dropdownMenu.selectedIndex = 0;
