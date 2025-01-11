@@ -1,11 +1,18 @@
 let allEpisodes = [];
 
+const state ={
+  allShows:[],
+  filteredShows: []
+}
 async function setup() {
+  console.log('set up');
   await fetchEpisodes();
+  await fetchShows();
 }
 
 // Fetch episodes from API
  function fetchEpisodes() {
+  console.log('fetched');
   const root = document.getElementById("root");
   const loadingMessage = document.createElement("p");
   loadingMessage.id = "loadingMessage";
@@ -21,7 +28,7 @@ async function setup() {
         return response.json(); // Return parsed JSON data
       })
       .then((data) => {
-        
+        console.log(data, "2episode data");
         allEpisodes = data; 
         loadingMessage.remove(); // Remove loading message
         renderAllEpisodes(); 
@@ -117,4 +124,43 @@ dropdownMenu.addEventListener("change", function () {
   }
 });
 
+//level 400
+//fetch shows and populate shows-dropdown
+const dropdownShowMenu = document.getElementById("show-dropdown");
+
+function fetchShows() {
+  const root = document.getElementById("root");
+  const loadingMessage = document.createElement("p");
+  loadingMessage.id = "loadingMessage";
+  loadingMessage.textContent = "Loading shows, please wait...";
+  root.append(loadingMessage);
+
+  fetch("https://api.tvmaze.com/shows")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch shows.");
+      }
+      return response.json(); // Return parsed JSON data
+    })
+    .then((data) => {
+      console.log(data, "shows data");  
+      state.allShows = data;
+      loadingMessage.remove(); // Remove loading message
+
+      // Populate the dropdown menu
+      dropdownShowMenu.innerHTML = '<option value="" disabled selected>Choose a Show</option>';
+      state.allShows.forEach((show) => {
+        const option = document.createElement("option");
+        option.value = show.id; // Use the show ID for reference
+        option.textContent = show.name; // Show name in the dropdown
+        dropdownShowMenu.appendChild(option); // Append option to dropdown
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      loadingMessage.textContent = "Error loading shows. Please try again later.";
+    });
+}
+
+// Call the function on window load
 window.onload = setup;
