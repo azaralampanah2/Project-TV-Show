@@ -4,6 +4,7 @@ const state ={
   allEpisodes: [], 
   searchTerm: "",
   showQuery:"",
+  fetchedUrls: {},
 }
 async function setup() {
   //await fetchEpisodes();
@@ -21,7 +22,18 @@ function fetchShows() {
   loadingMessage.textContent = "Loading shows, please wait...";
   root.append(loadingMessage);
 
-  fetch("https://api.tvmaze.com/shows")
+  const showsUrl = "https://api.tvmaze.com/shows";
+
+   if (state.fetchedUrls[showsUrl]) {
+    // If it has been fetched, use the cached data
+    console.log('Using cached shows data');
+    state.allShows = state.fetchedUrls[showsUrl];
+    loadingMessage.remove();
+    populateDropdown(state.allShows);  // Re-populate the dropdown
+    return;
+  }
+
+  fetch(showsUrl)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to fetch shows.");
@@ -29,9 +41,10 @@ function fetchShows() {
       return response.json(); 
     })
     .then((data) => {
-      console.log(data, "shows data");  
       state.allShows = data;
+      state.fetchedUrls[showsUrl] = data;
       loadingMessage.remove(); 
+      console.log(state,'Using cached episodes data');
 
       // Sort the shows alphabetically by name
       state.allShows.sort((a, b) => a.name.localeCompare(b.name));
@@ -51,15 +64,23 @@ function fetchShows() {
     });
 }
 
-// Fetch episodes from API
+// Fetch episodes from API AND CACHE
 function fetchEpisodes(url) {
-  console.log('Fetching episodes from:', url);
   const root = document.getElementById("root");
   const loadingMessage = document.createElement("p");
   loadingMessage.id = "loadingMessage";
   loadingMessage.textContent = "Loading episodes, please wait...";
   root.append(loadingMessage);
-
+    // Check if the URL has already been fetched
+  if (state.fetchedUrls[url]) {
+    // If it has been fetched, use the cached data
+    console.log(state.fetchedUrls,'Using cached episodes data');
+    state.allEpisodes = state.fetchedUrls[url];
+    loadingMessage.remove();
+    renderAllEpisodes(state.allEpisodes); 
+    populateDropdown(); 
+    return;
+  }
   
     fetch(url)
       .then((response) => {
@@ -71,6 +92,7 @@ function fetchEpisodes(url) {
       .then((episodeData) => {
         state.allEpisodes = episodeData; 
         loadingMessage.remove(); // Remove loading message
+         state.fetchedUrls[url] = episodeData; // Cache the fetched data
         renderAllEpisodes(state.allEpisodes); 
         populateDropdown(); 
       })
