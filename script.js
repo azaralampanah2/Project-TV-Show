@@ -26,12 +26,15 @@ function fetchShows() {
       if (!response.ok) {
         throw new Error("Failed to fetch shows.");
       }
-      return response.json(); // Return parsed JSON data
+      return response.json(); 
     })
     .then((data) => {
       console.log(data, "shows data");  
       state.allShows = data;
-      loadingMessage.remove(); // Remove loading message
+      loadingMessage.remove(); 
+
+      // Sort the shows alphabetically by name
+      state.allShows.sort((a, b) => a.name.localeCompare(b.name));
 
       // Populate the dropdown menu
       dropdownShowMenu.innerHTML = '<option value="" disabled selected>Choose a Show</option>';
@@ -108,17 +111,6 @@ dropdownShowMenu.addEventListener("change", function () {
   if (episodeUrl) {
     clearEpisodes();
     fetchEpisodes(episodeUrl)
-
-    /*const goBackButton = document.createElement("button");
-    goBackButton.textContent = "Go Back to All Episodes";
-    goBackButton.id = "goBackButton";
-    document.getElementById("root").append(goBackButton);
-
-    goBackButton.addEventListener("click", function () {
-      renderAllEpisodes();
-      this.remove();
-      dropdownMenu.selectedIndex = 0;
-    });*/
   }
 });
 
