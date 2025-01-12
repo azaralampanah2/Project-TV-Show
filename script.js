@@ -15,6 +15,8 @@ async function setup() {
 const dropdownShowMenu = document.getElementById("show-dropdown");
 const dropdownMenu = document.getElementById("dropdown");
 
+
+// Fetch shows from API AND CACHE
 function fetchShows() {
   const root = document.getElementById("root");
   const loadingMessage = document.createElement("p");
@@ -30,6 +32,7 @@ function fetchShows() {
     state.allShows = state.fetchedUrls[showsUrl];
     loadingMessage.remove();
     populateDropdown(state.allShows);  // Re-populate the dropdown
+    renderAllShows(state.allShows)
     return;
   }
 
@@ -48,7 +51,7 @@ function fetchShows() {
 
       // Sort the shows alphabetically by name
       state.allShows.sort((a, b) => a.name.localeCompare(b.name));
-
+      renderAllShows(state.allShows)
       // Populate the dropdown menu
       dropdownShowMenu.innerHTML = '<option value="" disabled selected>Choose a Show</option>';
       state.allShows.forEach((show) => {
@@ -100,7 +103,7 @@ function fetchEpisodes(url) {
         console.error(err);
         loadingMessage.textContent = "Error loading episodes. Please try again later.";
       });
-  }
+}
 
 document.getElementById("search-input").addEventListener("keyup", function () {
   const query = this.value.toLowerCase();
@@ -171,6 +174,29 @@ function makePageForEpisodes(episode) {
   filmTemplate.querySelector("img").src = episode.image.medium;
   filmTemplate.querySelector("p").textContent = episode.summary.replace(/<[^>]*>/g, '');
   return filmTemplate;
+}
+
+function makePageForShows(show) {
+  const showTemplate = document
+    .getElementById("showsTemplate")
+    .content.cloneNode(true);
+
+  filmTemplate.querySelector("h3").textContent = show.name;
+  filmTemplate.querySelector("img").src = show.image.medium;
+  filmTemplate.querySelector("p").textContent = show.summary.replace(/<[^>]*>/g, '');
+  return showTemplate;
+}
+
+function renderAllShows(allShows) {
+  if (!Array.isArray(allShows)) {
+    console.error("Invalid episodes data:");
+    return; // Exit if the input is not an array
+  }
+  clearEpisodes();
+  allShows.forEach(show => {
+    document.getElementById("root").append(makePageForEpisodes(show));
+  });
+  //updateDisplayLabel(allEpisodes.length);
 }
 
 function clearEpisodes() {
