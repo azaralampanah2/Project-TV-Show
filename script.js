@@ -14,6 +14,7 @@ async function setup() {
 // DOM elements
 const dropdownShowMenu = document.getElementById("show-dropdown");
 const dropdownMenu = document.getElementById("dropdown");
+const displayLabel = document.getElementById("display-label");
 
 
 // Fetch shows from API AND CACHE
@@ -52,6 +53,7 @@ function fetchShows() {
       // Sort the shows alphabetically by name
       state.allShows.sort((a, b) => a.name.localeCompare(b.name));
       renderAllShows(state.allShows)
+      displayLabel.textContent = "Displaying all Shows"
       // Populate the dropdown menu
       dropdownShowMenu.innerHTML = '<option value="" disabled selected>Choose a Show</option>';
       state.allShows.forEach((show) => {
@@ -218,7 +220,6 @@ function renderAllEpisodes(allEpisodes) {
 }
 
 function updateDisplayLabel(count) {
-  const displayLabel = document.getElementById("display-label");
   displayLabel.textContent = `Displaying ${count}/${state.allEpisodes.length} episodes`;
 }
 
