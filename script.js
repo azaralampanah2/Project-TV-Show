@@ -192,10 +192,28 @@ function makePageForShows(show) {
 showTemplate.getElementById("status").textContent=show.status;
 
     showTemplate.querySelector("h3").textContent = show.name;
+    showTemplate.querySelector("h3").addEventListener("click",(event)=>{
+  
+      const showId = show.id; // Assuming `show` has an `id` property
+    
+      // Update the state
+      state.showQuery = showId
+        
+        const matchedShow = state.allShows.find(show => show.id === parseInt(state.showQuery));
+         const episodeUrl = `https://api.tvmaze.com/shows/${matchedShow.id}/episodes`
+       console.log(episodeUrl);
+        if (episodeUrl) {
+          clearEpisodes();
+          fetchEpisodes(episodeUrl)
+        }
+      });
+     
     showTemplate.querySelector("img").src = show.image.medium;
     showTemplate.querySelector("p").textContent = show.summary.replace(/<[^>]*>/g, '');
   return showTemplate;
 }
+
+
 
 function renderAllShows(allShows) {
   if (!Array.isArray(allShows)) {
@@ -206,7 +224,7 @@ function renderAllShows(allShows) {
   allShows.forEach(show => {
     document.getElementById("root").append(makePageForShows(show));
   });
-  //updateDisplayLabel(allEpisodes.length);
+  
 }
 
 function clearEpisodes() {
