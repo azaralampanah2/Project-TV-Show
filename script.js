@@ -17,6 +17,7 @@ const dropdownMenu = document.getElementById("dropdown");
 const displayLabel = document.getElementById("display-label");
 const showsUrl = "https://api.tvmaze.com/shows";
 const root = document.getElementById("root");
+const backLabel=document.getElementById("searchBox")
 
 // Fetch shows from API AND CACHE
 function fetchShows() {
@@ -242,6 +243,13 @@ function renderAllEpisodes(allEpisodes) {
   allEpisodes.forEach(episode => {
     document.getElementById("root").append(makePageForEpisodes(episode));
   });
+  const backingBtn=document.createElement("label")
+  backingBtn.textContent="BACK TO SHOWS"
+  backLabel.append(backingBtn)
+  backingBtn.addEventListener("click",()=>{
+    renderAllShows(state.allShows)
+    backingBtn.remove()
+  })
   updateDisplayLabel(allEpisodes.length);
 }
 
