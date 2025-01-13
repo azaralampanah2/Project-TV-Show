@@ -53,6 +53,7 @@ function fetchShows() {
       // Sort the shows alphabetically by name
       state.allShows.sort((a, b) => a.name.localeCompare(b.name));
       renderAllShows(state.allShows)
+      console.log(state.allShows)
       displayLabel.textContent = "Displaying all Shows"
       // Populate the dropdown menu
       dropdownShowMenu.innerHTML = '<option value="" disabled selected>Choose a Show</option>';
