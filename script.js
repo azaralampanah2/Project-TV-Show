@@ -183,9 +183,9 @@ function makePageForShows(show) {
     .getElementById("showsTemplate")
     .content.cloneNode(true);
 
-  filmTemplate.querySelector("h3").textContent = show.name;
-  filmTemplate.querySelector("img").src = show.image.medium;
-  filmTemplate.querySelector("p").textContent = show.summary.replace(/<[^>]*>/g, '');
+    showTemplate.querySelector("h3").textContent = show.name;
+    showTemplate.querySelector("img").src = show.image.medium;
+    showTemplate.querySelector("p").textContent = show.summary.replace(/<[^>]*>/g, '');
   return showTemplate;
 }
 
@@ -196,7 +196,7 @@ function renderAllShows(allShows) {
   }
   clearEpisodes();
   allShows.forEach(show => {
-    document.getElementById("root").append(makePageForEpisodes(show));
+    document.getElementById("root").append(makePageForShows(show));
   });
   //updateDisplayLabel(allEpisodes.length);
 }
