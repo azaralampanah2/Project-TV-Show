@@ -15,18 +15,18 @@ async function setup() {
 const dropdownShowMenu = document.getElementById("show-dropdown");
 const dropdownMenu = document.getElementById("dropdown");
 const displayLabel = document.getElementById("display-label");
-
+const showsUrl = "https://api.tvmaze.com/shows";
+const root = document.getElementById("root");
 
 // Fetch shows from API AND CACHE
 function fetchShows() {
-  const root = document.getElementById("root");
+  
   const loadingMessage = document.createElement("p");
   loadingMessage.id = "loadingMessage";
   loadingMessage.textContent = "Loading shows, please wait...";
   root.append(loadingMessage);
 
-  const showsUrl = "https://api.tvmaze.com/shows";
-
+  
    if (state.fetchedUrls[showsUrl]) {
     // If it has been fetched, use the cached data
     console.log('Using cached shows data');
@@ -56,19 +56,22 @@ function fetchShows() {
       displayLabel.textContent = "Displaying all Shows"
       // Populate the dropdown menu
       dropdownShowMenu.innerHTML = '<option value="" disabled selected>Choose a Show</option>';
-      state.allShows.forEach((show) => {
-        const option = document.createElement("option");
-        option.value = show.id; // Use the show ID for reference
-        option.textContent = show.name; // Show name in the dropdown
-        dropdownShowMenu.appendChild(option); // Append option to dropdown
-      });
+      populateDropdownshows(state.allShows); 
+     
     })
-    .catch((err) => {
+.catch((err) => {
       console.error(err);
       loadingMessage.textContent = "Error loading shows. Please try again later.";
     });
 }
-
+  function  populateDropdownshows(){
+  state.allShows.forEach((show) => {
+    const option = document.createElement("option");
+    option.value = show.id; // Use the show ID for reference
+    option.textContent = show.name; // Show name in the dropdown
+    dropdownShowMenu.appendChild(option); // Append option to dropdown
+  });
+}
 // Fetch episodes from API AND CACHE
 function fetchEpisodes(url) {
   const root = document.getElementById("root");
