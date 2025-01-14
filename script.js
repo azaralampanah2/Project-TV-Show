@@ -260,22 +260,28 @@ function clearEpisodes() {
 }
 
 function renderAllEpisodes(allEpisodes) {
+  
   if (!Array.isArray(allEpisodes)) {
     console.error("Invalid episodes data:", allEpisodes);
     return; // Exit if the input is not an array
   }
-
+  inputSearchShows.style.display="none"
   clearEpisodes();
   allEpisodes.forEach(episode => {
     document.getElementById("root").append(makePageForEpisodes(episode));
   });
+  
   const backingBtn=document.createElement("label")
   backingBtn.textContent="BACK TO SHOWS"
   backLabel.append(backingBtn)
   backingBtn.addEventListener("click",()=>{
-    renderAllShows(state.allShows)
     backingBtn.remove()
+    renderAllShows(state.allShows)
+    
   })
+ 
+
+
   updateDisplayLabel(allEpisodes.length);
 }
 
