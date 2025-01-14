@@ -8,6 +8,7 @@ const state ={
 }
 async function setup() {
   //await fetchEpisodes();
+  document.getElementById("search-input").style.display="none"
   await fetchShows();
 }
 
@@ -18,6 +19,7 @@ const displayLabel = document.getElementById("display-label");
 const showsUrl = "https://api.tvmaze.com/shows";
 const root = document.getElementById("root");
 const backLabel=document.getElementById("searchBox")
+const inputSearchShows=document.getElementById("search-input-shows")
 
 // Fetch shows from API AND CACHE
 function fetchShows() {
@@ -76,6 +78,7 @@ function fetchShows() {
 }
 // Fetch episodes from API AND CACHE
 function fetchEpisodes(url) {
+  document.getElementById("search-input").style.display=""
   const root = document.getElementById("root");
   const loadingMessage = document.createElement("p");
   loadingMessage.id = "loadingMessage";
@@ -111,6 +114,27 @@ function fetchEpisodes(url) {
         loadingMessage.textContent = "Error loading episodes. Please try again later.";
       });
 }
+inputSearchShows.addEventListener("keyup",()=>{
+  const query=inputSearchShows.value.toLowerCase()
+  console.log(query)
+  if (query===""){
+    renderAllShows(state.allShows)
+
+  }else{
+        const matchedShows=state.allShows.filter(show=>
+      show.name.toLowerCase().includes(query) 
+     || show.summary.toLowerCase().includes(query)
+    || show.genres.join().toLowerCase().includes(query)
+    
+  
+    )
+    clearEpisodes()
+    matchedShows.forEach(show=>{
+      document.getElementById("root").append(makePageForShows(show))
+    })
+    
+  }
+})
 
 document.getElementById("search-input").addEventListener("keyup", function () {
   const query = this.value.toLowerCase();
@@ -227,6 +251,8 @@ function renderAllShows(allShows) {
   });
   
 }
+
+
 
 function clearEpisodes() {
   const sections = document.querySelectorAll("#root section");
