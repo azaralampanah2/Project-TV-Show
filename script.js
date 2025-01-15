@@ -228,10 +228,10 @@ function makePageForShows(show) {
   const showTemplate = document
     .getElementById("showsTemplate")
     .content.cloneNode(true);
-    showTemplate.getElementById("rating").textContent=show.rating.average;
-    showTemplate.getElementById("genres").textContent=show.genres;
-    showTemplate.getElementById("runTime").textContent=show.averageRuntime;
-showTemplate.getElementById("status").textContent=show.status;
+    showTemplate.getElementById("rating").textContent=`rating : ${show.rating.average}`;
+    showTemplate.getElementById("genres").textContent=`Genres : ${show.genres}`;
+    showTemplate.getElementById("runTime").textContent=`Run Time: ${show.averageRuntime}`;
+showTemplate.getElementById("status").textContent=`Status : ${show.status}`;
 
     showTemplate.querySelector("h3").textContent = show.name;
     showTemplate.querySelector("h3").addEventListener("click",(event)=>{
