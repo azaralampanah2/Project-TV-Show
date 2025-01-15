@@ -19,4 +19,11 @@
   margin: 20px auto; 
  
 }
-
+#backToShows{
+  border:2px solid #ccc;
+  padding: 1%;
+}
+#backToEpisodes{
+  border: 2px solid #ccc;
+  padding:1%;
+}
