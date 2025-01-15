@@ -6,13 +6,6 @@ const state ={
   showQuery:"",
   fetchedUrls: {},
 }
-async function setup() {
-  //await fetchEpisodes();
-  document.getElementById("search-input").style.display="none"
-  await fetchShows();
-}
-
-// DOM elements
 const dropdownShowMenu = document.getElementById("show-dropdown");
 const dropdownMenu = document.getElementById("dropdown");
 const displayLabel = document.getElementById("display-label");
@@ -20,6 +13,21 @@ const showsUrl = "https://api.tvmaze.com/shows";
 const root = document.getElementById("root");
 const backLabel=document.getElementById("searchBox")
 const inputSearchShows=document.getElementById("search-input-shows")
+const backToShowsBtn=document.getElementById("backToShows")
+const backToEpiosdesBtn=document.getElementById("backToEpisodes")
+const searchInputForEpisodes=document.getElementById("search-input")
+
+
+async function setup() {
+  backToShowsBtn.style.display="none"
+  backToEpiosdesBtn.style.display="none"
+  dropdownMenu.style.display="none"
+
+  searchInputForEpisodes.style.display="none"
+  await fetchShows();
+}
+
+// DOM elements
 
 // Fetch shows from API AND CACHE
 function fetchShows() {
@@ -137,6 +145,18 @@ inputSearchShows.addEventListener("keyup",()=>{
 })
 
 document.getElementById("search-input").addEventListener("keyup", function () {
+  backToShowsBtn.style.display="none"
+  backToEpiosdesBtn.style.display="block"
+   
+  backToEpiosdesBtn.addEventListener("click",()=>{
+    backToEpiosdesBtn.style.display="none"
+      renderAllEpisodes(state.allEpisodes)
+    })
+  
+
+
+
+
   const query = this.value.toLowerCase();
   
   if (query === "") {
@@ -171,12 +191,11 @@ dropdownShowMenu.addEventListener("change", function () {
 });
 
 dropdownMenu.addEventListener("change", function () {
-  const backingBtn=document.createElement("label")
-  backingBtn.textContent="BACK TO Episodes"
-  backLabel.append(backingBtn)
-  backingBtn.addEventListener("click",()=>{
-    backingBtn.remove()
-    renderAllShows(state.allEpisodes)
+  backToShowsBtn.style.display="none"
+  backToEpiosdesBtn.style.display="block"
+backToEpiosdesBtn.addEventListener("click",()=>{
+  backToEpiosdesBtn.style.display="none"
+    renderAllEpisodes(state.allEpisodes)
   })
   const selectedCode = this.value;
   const matchedEpisode = state.allEpisodes.find(episode => getEpisodeCode(episode) === selectedCode);
@@ -258,7 +277,10 @@ function clearEpisodes() {
 }
 
 function renderAllEpisodes(allEpisodes) {
-  
+
+  dropdownMenu.style.display="block"
+  dropdownShowMenu.style.display="none"
+  searchInputForEpisodes.style.display="block"
   if (!Array.isArray(allEpisodes)) {
     console.error("Invalid episodes data:", allEpisodes);
     return; // Exit if the input is not an array
@@ -269,12 +291,17 @@ function renderAllEpisodes(allEpisodes) {
     document.getElementById("root").append(makePageForEpisodes(episode));
   });
   
-  const backingBtn=document.createElement("label")
-  backingBtn.textContent="BACK TO SHOWS"
-  backLabel.append(backingBtn)
-  backingBtn.addEventListener("click",()=>{
-    backingBtn.remove()
+  backToShowsBtn.style.display="block"
+  backToShowsBtn.addEventListener("click",()=>{
+    displayLabel.style.display="none"
+    backToShowsBtn.style.display="none"
+    backToEpiosdesBtn.style.display="none"
+    dropdownMenu.style.display="none"
+    dropdownShowMenu.style.display="block"
+    inputSearchShows.style.display="block"
+    searchInputForEpisodes.style.display="none"
     renderAllShows(state.allShows)
+    
     
   })
  
