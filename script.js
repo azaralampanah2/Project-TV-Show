@@ -171,6 +171,13 @@ dropdownShowMenu.addEventListener("change", function () {
 });
 
 dropdownMenu.addEventListener("change", function () {
+  const backingBtn=document.createElement("label")
+  backingBtn.textContent="BACK TO Episodes"
+  backLabel.append(backingBtn)
+  backingBtn.addEventListener("click",()=>{
+    backingBtn.remove()
+    renderAllShows(state.allEpisodes)
+  })
   const selectedCode = this.value;
   const matchedEpisode = state.allEpisodes.find(episode => getEpisodeCode(episode) === selectedCode);
 
@@ -178,16 +185,7 @@ dropdownMenu.addEventListener("change", function () {
     clearEpisodes();
     document.getElementById("root").append(makePageForEpisodes(matchedEpisode));
      updateDisplayLabel(1);
-    const goBackButton = document.createElement("button");
-    goBackButton.textContent = "Go Back to All Episodes";
-    goBackButton.id = "goBackButton";
-    document.getElementById("root").append(goBackButton);
-
-    goBackButton.addEventListener("click", function () {
-      renderAllEpisodes(state.allEpisodes);
-      this.remove();
-      dropdownMenu.selectedIndex = 0;
-    });
+ 
   }
 });
 
