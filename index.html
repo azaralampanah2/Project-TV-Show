@@ -12,10 +12,12 @@
     <header>
       <div id="searchBox">
         <form action="/action_page.php">
+         <!---- <label id="displayingShowsLabel">Dispalying All Shows</label> --->
           <label for="search-input" id="display-label">
             Displaying: All Episodes
           </label>
-          <input type="search" id="search-input" name="search" placeholder="your search term..">
+                    <input type="search" id="search-input" name="search" placeholder="search within episodes ...">
+          <input type="search" id="search-input-shows" placeholder="search within shows ...">
           <label for="dropdown"></label>
           <select id="dropdown" name="Episodes">
             <option value="" disabled selected>Choose an Episode</option>
@@ -23,8 +25,15 @@
           <label for="show-dropdown"></label>
           <select id="show-dropdown" name="Episodes">
             <option value="" disabled selected>Choose an show</option>
+            
           </select>
         </form>
+      <p></p>
+          <label id="backToShows">Back To Shows</label>
+          <p></p>
+          <label id="backToEpisodes">Back To Episodes</label>
+
+        
       </div>
     </header>
     <div id="root">
@@ -40,6 +49,14 @@
           <h3>show name </h3>
           <img src="" alt="Episode Image" />
           <p>Summary</p>
+        </section>
+        <section id="moreDetails">
+          <p id="rating"></p>
+          <p id="genres"></p>
+          <p id="runTime"></p>
+          <p id="status"></p>
+
+          
         </section>
       </template>
     </div>

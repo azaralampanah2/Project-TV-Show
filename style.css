@@ -9,5 +9,21 @@
   align-self: flex-end;
 }
 
-
-
+#moreDetails {
+  border: 2px solid #ccc; 
+  border-radius: 10px; 
+  padding: 20px; 
+  background-color: #f9f9f9; 
+  width: auto;
+  height:50%;
+  margin: 20px auto; 
+ 
+}
+#backToShows{
+  border:2px solid #ccc;
+  padding: 1%;
+}
+#backToEpisodes{
+  border: 2px solid #ccc;
+  padding:1%;
+}
