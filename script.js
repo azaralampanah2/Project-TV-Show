@@ -293,7 +293,9 @@ function renderAllEpisodes(allEpisodes) {
   
   backToShowsBtn.style.display="block"
   backToShowsBtn.addEventListener("click",()=>{
-    displayLabel.style.display="none"
+   displayLabel.textContent = "Displaying all Shows"
+
+   
     backToShowsBtn.style.display="none"
     backToEpiosdesBtn.style.display="none"
     dropdownMenu.style.display="none"
