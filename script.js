@@ -146,7 +146,7 @@ inputSearchShows.addEventListener("keyup",()=>{
 
 document.getElementById("search-input").addEventListener("keyup", function () {
   backToShowsBtn.style.display="none"
-  backToEpiosdesBtn.style.display="block"
+  backToEpiosdesBtn.style.display="inline-block"
    
   backToEpiosdesBtn.addEventListener("click",()=>{
     backToEpiosdesBtn.style.display="none"
@@ -192,7 +192,7 @@ dropdownShowMenu.addEventListener("change", function () {
 
 dropdownMenu.addEventListener("change", function () {
   backToShowsBtn.style.display="none"
-  backToEpiosdesBtn.style.display="block"
+  backToEpiosdesBtn.style.display="inline-block"
 backToEpiosdesBtn.addEventListener("click",()=>{
   backToEpiosdesBtn.style.display="none"
     renderAllEpisodes(state.allEpisodes)
@@ -278,9 +278,9 @@ function clearEpisodes() {
 
 function renderAllEpisodes(allEpisodes) {
 
-  dropdownMenu.style.display="block"
+  dropdownMenu.style.display="inline-block"
   dropdownShowMenu.style.display="none"
-  searchInputForEpisodes.style.display="block"
+  searchInputForEpisodes.style.display="inline-block"
   if (!Array.isArray(allEpisodes)) {
     console.error("Invalid episodes data:", allEpisodes);
     return; // Exit if the input is not an array
@@ -291,7 +291,7 @@ function renderAllEpisodes(allEpisodes) {
     document.getElementById("root").append(makePageForEpisodes(episode));
   });
   
-  backToShowsBtn.style.display="block"
+  backToShowsBtn.style.display="inline-block"
   backToShowsBtn.addEventListener("click",()=>{
    displayLabel.textContent = "Displaying all Shows"
 
@@ -299,8 +299,8 @@ function renderAllEpisodes(allEpisodes) {
     backToShowsBtn.style.display="none"
     backToEpiosdesBtn.style.display="none"
     dropdownMenu.style.display="none"
-    dropdownShowMenu.style.display="block"
-    inputSearchShows.style.display="block"
+    dropdownShowMenu.style.display="inline-block"
+    inputSearchShows.style.display="inline-block"
     searchInputForEpisodes.style.display="none"
     renderAllShows(state.allShows)
     
