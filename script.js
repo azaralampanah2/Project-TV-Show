@@ -5,7 +5,7 @@ const state ={
   searchTerm: "",
   showQuery:"",
   fetchedUrls: {},
-  query:""
+  
 }
 const dropdownShowMenu = document.getElementById("show-dropdown");
 const dropdownMenu = document.getElementById("dropdown");
