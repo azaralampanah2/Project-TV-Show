@@ -221,7 +221,7 @@ function makePageForEpisodes(episode) {
 
   filmTemplate.querySelector("h3").textContent = `${episode.name} ${getEpisodeCode(episode)}`;
   filmTemplate.querySelector("img").src = episode.image.medium;
-  filmTemplate.querySelector("p").textContent = episode.summary.replace(/<[^>]*>/g, '');
+  filmTemplate.querySelector("p").textContent = episode.summary.replace(/<[^>]*>/g, '').substring(0,300)+"..."
   return filmTemplate;
 }
 
@@ -252,7 +252,7 @@ showTemplate.getElementById("status").textContent=`Status : ${show.status}`;
       });
      
     showTemplate.querySelector("img").src = show.image.medium;
-    showTemplate.querySelector("p").textContent = show.summary.replace(/<[^>]*>/g, '');
+    showTemplate.querySelector("p").textContent = show.summary.replace(/<[^>]*>/g, '').substring(0,300)+"..."
   return showTemplate;
 }
 
